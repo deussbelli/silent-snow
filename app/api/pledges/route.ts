@@ -10,6 +10,19 @@ const STORE = path.join(process.cwd(), 'data', 'pledges.json')
 const INTENTS = new Set(['adopt', 'foster', 'sponsor', 'volunteer'])
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
+/** Small in-memory throttle so a single client cannot flood the barn inbox. */
+const recent = new Map<string, number[]>()
+const WINDOW_MS = 60_000
+const MAX_PER_WINDOW = 5
+
+function throttled(key: string) {
+  const now = Date.now()
+  const hits = (recent.get(key) ?? []).filter((t) => now - t < WINDOW_MS)
+  hits.push(now)
+  recent.set(key, hits)
+  return hits.length > MAX_PER_WINDOW
+}
+
 function clean(value: unknown, max: number) {
   if (typeof value !== 'string') return ''
   return value.replace(/\s+/g, ' ').trim().slice(0, max)
@@ -39,6 +52,14 @@ async function append(pledge: Pledge) {
 }
 
 export async function POST(request: Request) {
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'local'
+  if (throttled(ip)) {
+    return NextResponse.json(
+      { ok: false, error: 'Too many messages in a short time. Please try again in a minute.' },
+      { status: 429 },
+    )
+  }
+
   let body: unknown
   try {
     body = await request.json()
@@ -52,6 +73,11 @@ export async function POST(request: Request) {
   const city = clean(raw.city, 80)
   const intent = clean(raw.intent, 20)
   const message = clean(raw.message, 1200)
+
+  // Honeypot: a real person never fills a field they cannot see.
+  if (clean(raw.website, 40)) {
+    return NextResponse.json({ ok: true, reference: 'accepted' })
+  }
 
   const errors: Record<string, string> = {}
   if (name.length < 2) errors.name = 'Please tell us your name.'

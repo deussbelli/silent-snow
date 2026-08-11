@@ -119,6 +119,15 @@ export default function PledgeForm() {
         />
       </label>
 
+      {/* Hidden from people, irresistible to bots. */}
+      <input
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="absolute h-0 w-0 opacity-0 -z-10"
+      />
+
       {notice && <p className="mt-4 text-sm text-blush">{notice}</p>}
 
       <div className="mt-7 flex flex-col sm:flex-row sm:items-center gap-4">
