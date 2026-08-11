@@ -117,6 +117,13 @@ export const residents: Resident[] = [
 ]
 
 
+export const gallery = [
+  { src: '/photos/detail-gaze.webp', alt: 'Close study of a white cat’s eye and whiskers' },
+  { src: '/photos/window-light.webp', alt: 'A white cat watching the light at a window' },
+  { src: '/photos/resting.webp', alt: 'A white cat resting on a warm surface' },
+  { src: '/photos/meadow.webp', alt: 'A white cat stretched out on summer grass' },
+]
+
 export const intents = [
   { value: 'adopt', label: 'Adopt a resident' },
   { value: 'foster', label: 'Foster for a season' },
