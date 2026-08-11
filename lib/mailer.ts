@@ -88,3 +88,55 @@ export async function deliverPledge(pledge: Pledge): Promise<{ delivered: boolea
     return { delivered: false }
   }
 }
+
+/**
+ * A short receipt for the person who wrote in, so they are not left wondering
+ * whether the form worked. Failure here is never surfaced to the visitor —
+ * their pledge is already safely stored.
+ */
+export async function sendPledgeReceipt(pledge: Pledge): Promise<void> {
+  const host = process.env.SMTP_HOST
+  if (!host) return
+
+  const transport = nodemailer.createTransport({
+    host,
+    port: Number(process.env.SMTP_PORT ?? 587),
+    secure: process.env.SMTP_SECURE === 'true',
+    auth: process.env.SMTP_USER
+      ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS ?? '' }
+      : undefined,
+  })
+
+  const reference = pledge.id.slice(0, 8).toUpperCase()
+  const intent = INTENT_LABELS[pledge.intent] ?? pledge.intent
+
+  try {
+    await transport.sendMail({
+      from: process.env.SMTP_FROM ?? `Silent Snow <no-reply@${host}>`,
+      to: pledge.email,
+      subject: `Silent Snow — we have your message (${reference})`,
+      text: [
+        `Hello ${pledge.name},`,
+        '',
+        `We have your note about "${intent}". A carer reads every message by hand,`,
+        'usually within two days, and you will hear back from a person rather than',
+        'a template.',
+        '',
+        `Your reference is ${reference}.`,
+        '',
+        'Silent Snow',
+      ].join('\n'),
+      html: `
+        <div style="font-family:Georgia,serif;max-width:520px;color:#101728;line-height:1.65">
+          <p>Hello ${escapeHtml(pledge.name)},</p>
+          <p>We have your note about <strong>${escapeHtml(intent)}</strong>. A carer reads every
+          message by hand, usually within two days, and you will hear back from a person
+          rather than a template.</p>
+          <p>Your reference is <strong style="letter-spacing:.08em">${reference}</strong>.</p>
+          <p style="color:#6b7280">Silent Snow</p>
+        </div>`,
+    })
+  } catch (error) {
+    console.error('[pledge] receipt failed', error instanceof Error ? error.message : error)
+  }
+}

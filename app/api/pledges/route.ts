@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { promises as fs } from 'node:fs'
 import path from 'node:path'
 import { randomUUID } from 'node:crypto'
-import { deliverPledge } from '@/lib/mailer'
+import { deliverPledge, sendPledgeReceipt } from '@/lib/mailer'
 
 export const runtime = 'nodejs'
 
