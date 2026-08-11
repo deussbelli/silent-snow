@@ -137,6 +137,37 @@ textarea {
   font-family: inherit;
 }
 
+/* A visible focus ring for keyboard users, without the mouse-click halo. */
+a:focus-visible,
+button:focus-visible,
+.field:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+  border-radius: 0.5rem;
+}
+
+/* Tucked away until it is tabbed to, then parked over the header. */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 50%;
+  z-index: 100;
+  transform: translate(-50%, -180%);
+  border-radius: 999px;
+  background: var(--color-gold);
+  color: var(--color-ink);
+  padding: 0.7rem 1.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus {
+  transform: translate(-50%, 0);
+}
+
 .field {
   width: 100%;
   border-radius: 0.9rem;
