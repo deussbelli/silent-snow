@@ -1,5 +1,6 @@
+import PhotoBand from '@/components/PhotoBand'
 import PledgeForm from '@/components/PledgeForm'
-import { gallery, marquee, programme, residents, science, site, stats, voices } from '@/lib/content'
+import { marquee, programme, residents, science, site, stats, voices } from '@/lib/content'
 
 const NAV = [
   { label: 'The silence', href: '#silence' },
@@ -280,18 +281,7 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <p className="eyebrow">The barn, lately</p>
         </div>
-        <div className="mt-7 grid grid-cols-2 gap-2 px-2 md:grid-cols-4 md:gap-3 md:px-3">
-          {gallery.map((shot) => (
-            <figure key={shot.src} className="overflow-hidden rounded-2xl border border-pearl/8">
-              <img
-                src={shot.src}
-                alt={shot.alt}
-                className="aspect-[3/2] w-full object-cover transition-transform duration-700 hover:scale-[1.06]"
-                loading="lazy"
-              />
-            </figure>
-          ))}
-        </div>
+        <PhotoBand />
       </section>
 
       {/* ─────────────────────────── voices ─────────────────────────── */}
