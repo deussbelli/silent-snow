@@ -1,0 +1,159 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-ink: #070a11;
+  --color-ink-soft: #101728;
+  --color-veil: #1b2540;
+  --color-pearl: #f6f3ec;
+  --color-gold: #d9c08a;
+  --color-gold-bright: #ebd9ae;
+  --color-sapphire: #5b8df6;
+  --color-jade: #2fa6a0;
+  --color-blush: #e7c7c0;
+
+  --font-display: var(--font-display-loaded), 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-sans: var(--font-sans-loaded), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-pearl);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-gold) 40%, transparent);
+  color: #fff;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 300;
+  letter-spacing: -0.015em;
+}
+
+/* A hairline that fades at both ends — used to separate every major band. */
+.rule {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--color-gold) 34%, transparent) 22%,
+    color-mix(in srgb, var(--color-gold) 34%, transparent) 78%,
+    transparent
+  );
+}
+
+.eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-gold) 82%, white);
+}
+
+.glass {
+  background: color-mix(in srgb, var(--color-pearl) 4%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-pearl) 10%, transparent);
+  backdrop-filter: blur(18px);
+}
+
+.gold-text {
+  background: linear-gradient(120deg, var(--color-gold-bright), var(--color-gold) 46%, #a98f56);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: drift 38s linear infinite;
+}
+
+@keyframes drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.rise {
+  animation: rise 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.breathe {
+  animation: breathe 9s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.035);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .rise,
+  .breathe {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+.field {
+  width: 100%;
+  border-radius: 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--color-pearl) 14%, transparent);
+  background: color-mix(in srgb, var(--color-ink-soft) 74%, transparent);
+  padding: 0.85rem 1rem;
+  font-size: 0.95rem;
+  color: var(--color-pearl);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field::placeholder {
+  color: color-mix(in srgb, var(--color-pearl) 38%, transparent);
+}
+
+.field:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--color-gold) 62%, transparent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-gold) 14%, transparent);
+}

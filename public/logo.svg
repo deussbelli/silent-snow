@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Silent Snow">
+  <defs>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EBD9AE"/>
+      <stop offset="1" stop-color="#A98F56"/>
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="#0B1018" stroke="url(#ring)" stroke-width="1.4"/>
+  <path d="M20 30 L18 17 L28 24 Z" fill="#F6F3EC"/>
+  <path d="M44 30 L46 17 L36 24 Z" fill="#F6F3EC"/>
+  <ellipse cx="32" cy="34" rx="14" ry="13" fill="#F6F3EC"/>
+  <ellipse cx="26.5" cy="33" rx="2.4" ry="3.2" fill="#5B8DF6"/>
+  <ellipse cx="37.5" cy="33" rx="2.4" ry="3.2" fill="#5B8DF6"/>
+  <path d="M30 39 L34 39 L32 41.6 Z" fill="#C9A3A0"/>
+</svg>
